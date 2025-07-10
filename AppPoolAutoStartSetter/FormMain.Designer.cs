@@ -86,6 +86,7 @@
             this.columnHeaderName,
             this.columnHeaderAutoStart});
             this.listViewAppPool.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewAppPool.FullRowSelect = true;
             this.listViewAppPool.HideSelection = false;
             this.listViewAppPool.Location = new System.Drawing.Point(0, 0);
             this.listViewAppPool.Name = "listViewAppPool";
@@ -93,6 +94,7 @@
             this.listViewAppPool.TabIndex = 0;
             this.listViewAppPool.UseCompatibleStateImageBehavior = false;
             this.listViewAppPool.View = System.Windows.Forms.View.Details;
+            this.listViewAppPool.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewAppPool_ColumnClick);
             // 
             // columnHeaderName
             // 

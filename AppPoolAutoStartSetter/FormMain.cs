@@ -28,6 +28,12 @@ namespace AppPoolAutoStartSetter
         /// </summary>
         private static readonly string ELEM_AUTO_START = "autoStart";
 
+
+        /// <summary>
+        /// Column Sorter
+        /// </summary>
+        private ListViewColumnSorter sorter = new ListViewColumnSorter();
+
         public FormMain()
         {
             InitializeComponent();
@@ -94,6 +100,9 @@ namespace AppPoolAutoStartSetter
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
+            // Sorter を設定
+            listViewAppPool.ListViewItemSorter = sorter;
+
             // すべて無効ボタンを無効化
             buttonDisableAll.Enabled = false;
         }
@@ -160,6 +169,37 @@ namespace AppPoolAutoStartSetter
             {
                 MessageBox.Show("アプリケーションプールの無効化に失敗しました: " + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// ListView の Column をクリックしたときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listViewAppPool_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == sorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (sorter.Order == SortOrder.Ascending)
+                {
+                    sorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    sorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                sorter.SortColumn = e.Column;
+                sorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            listViewAppPool.Sort();
         }
     }
 }
