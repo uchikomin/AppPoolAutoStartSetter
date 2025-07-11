@@ -14,17 +14,6 @@ namespace AppPoolAutoStartSetter
     public partial class FormMain : Form
     {
         /// <summary>
-        /// 要素名：アプリケーションプール名
-        /// </summary>
-        private static readonly string ELEM_NAME = "name";
-
-        /// <summary>
-        /// 要素名：autoStart
-        /// </summary>
-        private static readonly string ELEM_AUTO_START = "autoStart";
-
-
-        /// <summary>
         /// Column Sorter
         /// </summary>
         private ListViewColumnSorter sorter = new ListViewColumnSorter();
@@ -134,20 +123,17 @@ namespace AppPoolAutoStartSetter
                         var autoStart = bool.Parse(item.SubItems[1].Text);
 
                         // アプリケーションプールに対して繰り返し
-                        foreach (var elem in appPools)
+                        foreach (var pool in appPools)
                         {
-                            // 要素名を取得
-                            var elemName = elem[ELEM_NAME] as string;
-
                             // 要素名が異なっている場合
-                            if (elemName != name)
+                            if (pool.Name != name)
                             {
                                 // スキップ
                                 continue;
                             }
 
                             // autoStart を false にする
-                            elem[ELEM_AUTO_START] = false;
+                            pool.AutoStart = false;
                             // ループを抜ける
                             break;
                         }
