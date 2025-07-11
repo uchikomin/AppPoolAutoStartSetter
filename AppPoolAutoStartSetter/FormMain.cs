@@ -14,11 +14,6 @@ namespace AppPoolAutoStartSetter
     public partial class FormMain : Form
     {
         /// <summary>
-        /// セクション名：アプリケーションプール
-        /// </summary>
-        private static readonly string APP_POOL_SECTION_NAME = "system.applicationHost/applicationPools";
-
-        /// <summary>
         /// 要素名：アプリケーションプール名
         /// </summary>
         private static readonly string ELEM_NAME = "name";
@@ -55,26 +50,23 @@ namespace AppPoolAutoStartSetter
                 // ServerManager を取得
                 using (var manager = new ServerManager())
                 {
-                    // アプリケーションホスト設定を取得
-                    var config = manager.GetApplicationHostConfiguration();
+                    // アプリケーションプールを取得
+                    var appPools = manager.ApplicationPools;
 
-                    // アプリケーションプール情報を取得
-                    var appPoolSection = config.GetSection(APP_POOL_SECTION_NAME);
-
-                    // 各要素について繰り返し
-                    foreach (var elem in appPoolSection.ChildElements)
+                    // 各アプリケーションプールに対して繰り返し
+                    foreach (var pool in appPools)
                     {
-                        // アプリケーションプール名
-                        var name = elem[ELEM_NAME] as string;
-                        // autoStart の値
-                        var autoStart = elem[ELEM_AUTO_START] as bool?;
+                        // アプリケーションプール名を取得
+                        var name = pool.Name;
+                        // autoStart を取得
+                        var autoStart = pool.AutoStart;
 
                         // ListViewItem を生成
                         var item = new ListViewItem();
 
                         // テキストを設定
                         item.Text = name;
-                        item.SubItems.Add(autoStart.HasValue ? autoStart.ToString() : true.ToString());
+                        item.SubItems.Add(autoStart.ToString());
 
                         // ListView に追加
                         listViewAppPool.Items.Add(item);
@@ -130,11 +122,8 @@ namespace AppPoolAutoStartSetter
                 // ServerManager を取得
                 using (var manager = new ServerManager())
                 {
-                    // アプリケーションホスト設定を取得
-                    var config = manager.GetApplicationHostConfiguration();
-
-                    // アプリケーションプールのセクションを取得
-                    var appPoolSection = config.GetSection(APP_POOL_SECTION_NAME);
+                    // アプリケーションプールを取得
+                    var appPools = manager.ApplicationPools;
 
                     // ListView の項目に対して繰り返し
                     foreach (ListViewItem item in listViewAppPool.Items)
@@ -142,20 +131,26 @@ namespace AppPoolAutoStartSetter
                         // アプリケーションプール名を取得
                         var name = item.Text;
                         // autoStart を取得
-                        var autoStart = bool.Parse(item.SubItems[0].Text);
+                        var autoStart = bool.Parse(item.SubItems[1].Text);
 
-                        // アプリケーションプールの要素を取得
-                        var elem = appPoolSection.GetChildElement(name);
-
-                        // 要素が取得できなかった場合
-                        if (elem == null)
+                        // アプリケーションプールに対して繰り返し
+                        foreach (var elem in appPools)
                         {
-                            // スキップ
-                            continue;
-                        }
+                            // 要素名を取得
+                            var elemName = elem[ELEM_NAME] as string;
 
-                        // autoStart を false にする
-                        elem[ELEM_AUTO_START] = false;
+                            // 要素名が異なっている場合
+                            if (elemName != name)
+                            {
+                                // スキップ
+                                continue;
+                            }
+
+                            // autoStart を false にする
+                            elem[ELEM_AUTO_START] = false;
+                            // ループを抜ける
+                            break;
+                        }
                     }
 
                     // 変更を保存する
