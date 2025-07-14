@@ -36,12 +36,14 @@
             this.listViewAppPool = new System.Windows.Forms.ListView();
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderAutoStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonOutputRunning = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonOutputRunning);
             this.panel1.Controls.Add(this.buttonDisableAll);
             this.panel1.Controls.Add(this.buttonLoad);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -56,7 +58,7 @@
             this.buttonDisableAll.Location = new System.Drawing.Point(275, 3);
             this.buttonDisableAll.Name = "buttonDisableAll";
             this.buttonDisableAll.Size = new System.Drawing.Size(109, 50);
-            this.buttonDisableAll.TabIndex = 0;
+            this.buttonDisableAll.TabIndex = 1;
             this.buttonDisableAll.Text = "すべて無効";
             this.buttonDisableAll.UseVisualStyleBackColor = true;
             this.buttonDisableAll.Click += new System.EventHandler(this.buttonDisableAll_Click);
@@ -106,6 +108,17 @@
             this.columnHeaderAutoStart.Text = "autoStart";
             this.columnHeaderAutoStart.Width = 108;
             // 
+            // buttonOutputRunning
+            // 
+            this.buttonOutputRunning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOutputRunning.Location = new System.Drawing.Point(160, 3);
+            this.buttonOutputRunning.Name = "buttonOutputRunning";
+            this.buttonOutputRunning.Size = new System.Drawing.Size(109, 50);
+            this.buttonOutputRunning.TabIndex = 2;
+            this.buttonOutputRunning.Text = "実行中一覧出力";
+            this.buttonOutputRunning.UseVisualStyleBackColor = true;
+            this.buttonOutputRunning.Click += new System.EventHandler(this.buttonOutputRunning_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -133,5 +146,6 @@
         private System.Windows.Forms.ListView listViewAppPool;
         private System.Windows.Forms.ColumnHeader columnHeaderName;
         private System.Windows.Forms.ColumnHeader columnHeaderAutoStart;
+        private System.Windows.Forms.Button buttonOutputRunning;
     }
 }
